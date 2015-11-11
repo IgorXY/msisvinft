@@ -1,0 +1,53 @@
+unit Unit1;
+
+interface
+
+uses
+   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+   System.Classes, Vcl.Graphics,
+   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+   TForm1 = class(TForm)
+      OpenDialog1: TOpenDialog;
+      Button1: TButton;
+      procedure FormCreate(Sender: TObject);
+   private
+      { Private declarations }
+   public
+      { Public declarations }
+   end;
+
+var
+   Form1: TForm1;
+   s: string;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+   f: textfile;
+   sb: string;
+begin
+   if OpenDialog1.Execute then
+   begin
+      s := '';
+      sb := '';
+      AssignFile(f, OpenDialog1.FileName);
+      reset(f);
+      if not eof(f) then
+         while not eof(f) do
+         begin
+            readln(f, sb);
+            s := s + sb;
+         end
+      else
+         ShowMessage('File is empty!');
+   end
+   else
+      ShowMessage('Error file!');
+end;
+
+end.
